@@ -1,7 +1,7 @@
 # echo # gitignore >.gitignore
 # git init
 # git add -A
-# git commit -m "init"
+# git commit -m "Initial"
 # git remote add origin https://github.com/nghiatek/lott.git
 # git branch -M main
 # git push -u origin main
