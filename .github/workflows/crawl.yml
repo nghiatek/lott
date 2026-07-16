@@ -1,0 +1,39 @@
+name: Vietlott Automated Crawler
+
+on:
+  schedule:
+    # Chạy vào 12:30 UTC (tức 19:30 giờ Việt Nam) các ngày Ba, Năm, Bảy (lịch quay Power 6/55)
+    - cron: '30 12 * * 2,4,6'
+  workflow_dispatch: # Cho phép bạn bấm nút chạy bằng tay bất cứ lúc nào trên GitHub
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Cấp quyền cho Action ghi dữ liệu vào repo
+      
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-node-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Crawler
+      run: python crawler.py
+
+    - name: Commit and Push changes
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add data/*
+        git commit -m "Auto-update Vietlott data: $(date +'%Y-%m-%d')" || exit 0
+        git push
+        
