@@ -16,3 +16,4 @@ vietlott-crawler/
     ├── index.html            # Giao diện hiển thị kết quả
     └── app.js                # Logic fetch dữ liệu và hiển thị
 --
+https://nghiatek.github.io/lott/
