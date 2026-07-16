@@ -40,7 +40,8 @@ def crawl_vietlott():
 
 def save_data(new_record):
     # 1. Lưu vào JSON
-    json_path = 'data/power655.json'
+    # json_path = 'data/power655.json'
+    json_path = '655.json'
     existing_data = []
     
     if os.path.exists(json_path):
