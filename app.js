@@ -1,6 +1,6 @@
 // Thay 'username' và 'repo' bằng thông tin GitHub thực tế của bạn
 // const DATA_URL = 'https://raw.githubusercontent.com/username/repo/main/data/power655.json';
-const DATA_URL = 'https://raw.githubusercontent.com/nghiatek/lott/main/data/655.json';
+const DATA_URL = 'https://raw.githubusercontent.com/nghiatek/lott/main/655.json';
 
 async function loadVietlottData() {
     try {
