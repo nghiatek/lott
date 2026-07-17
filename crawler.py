@@ -87,10 +87,46 @@ def scrape_power_655():
     except Exception as e:
         print(f"Có lỗi xảy ra trong quá trình cào dữ liệu: {e}")
         return None
+        
+def save_data(new_record):
+    # 1. Lưu vào JSON
+    # json_path = 'data/power655.json'
+    json_path = '655.json'
+    existing_data = []
+    
+    if os.path.exists(json_path):
+        with open(json_path, 'r', encoding='utf-8') as f:
+            try:
+                existing_data = json.load(f)
+            except json.JSONDecodeError:
+                pass
+                
+    # Tránh trùng lặp kỳ quay
+    if not any(item['draw_id'] == new_record['draw_id'] for item in existing_data):
+        existing_data.insert(0, new_record) # Thêm vào đầu danh sách để lấy mới nhất trước
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(existing_data, f, ensure_ascii=False, indent=4)
+            
+    # 2. Lưu vào CSV
+    csv_path = '655.csv'
+    file_exists = os.path.exists(csv_path)
+    
+    if not any(item['draw_id'] == new_record['draw_id'] for item in existing_data[:-1]): # Nếu là bản ghi mới
+        with open(csv_path, 'a', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            if not file_exists:
+                writer.writerow(['Kỳ quay', 'Ngày', 'Số 1', 'Số 2', 'Số 3', 'Số 4', 'Số 5', 'Số 6', 'Số Bonus', 'Cập nhật'])
+            writer.writerow([
+                new_record['draw_id'], new_record['date'],
+                *new_record['numbers'], new_record['bonus'], new_record['updated_at']
+            ])
 
 if __name__ == "__main__":
     # Test thử script chạy trực tiếp
-    data = scrape_power_655()
-    if data:
-        print("\nDữ liệu thô cào về thành công:")
-        print(json.dumps(data, indent=4, ensure_ascii=False))
+    result = scrape_power_655()
+    if result:
+        #print("\nDữ liệu thô cào về thành công:")
+        #print(json.dumps(data, indent=4, ensure_ascii=False))
+        save_data(result)
+        print("Cào dữ liệu thành công!")
+        
