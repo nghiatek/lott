@@ -125,7 +125,7 @@ if __name__ == "__main__":
     # Test thử script chạy trực tiếp
     result = scrape_power_655()
     if result:
-        #print("\nDữ liệu thô cào về thành công:")
+        print("\nDữ liệu thô cào về thành công:")
         #print(json.dumps(data, indent=4, ensure_ascii=False))
         save_data(result)
         print("Cào dữ liệu thành công!")
