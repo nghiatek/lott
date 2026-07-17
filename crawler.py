@@ -2,7 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-import json
+import json, csv
 import os
 
 URL = "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/655.html"
@@ -116,9 +116,16 @@ def save_data(new_record):
             writer = csv.writer(f)
             if not file_exists:
                 writer.writerow(['Kỳ quay', 'Ngày', 'Số 1', 'Số 2', 'Số 3', 'Số 4', 'Số 5', 'Số 6', 'Số Bonus', 'Cập nhật'])
+            '''error
             writer.writerow([
                 new_record['draw_id'], new_record['date'],
                 *new_record['numbers'], new_record['bonus'], new_record['updated_at']
+            ])
+            '''
+            writer.writerow([
+                new_record['draw_id'], new_record['date'],
+                *new_record['numbers'], new_record['bonus'], 
+                new_record.get('scraped_at', new_record.get('updated_at', ''))
             ])
 
 if __name__ == "__main__":
